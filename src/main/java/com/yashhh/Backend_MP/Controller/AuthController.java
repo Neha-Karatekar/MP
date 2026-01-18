@@ -20,14 +20,12 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // LOGIN API
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User request) {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // ⚠️ Password check (plain for now)
         if (!user.getPassword().equals(request.getPassword())) {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
